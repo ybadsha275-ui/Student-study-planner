@@ -10,9 +10,9 @@
         "estimated_minutes": 30,
         "due_date": "2026-09-10",
         "recurring": "None",
-        "completed": false,
+        "completed": true,
         "starred": false,
-        "completed_on": "",
+        "completed_on": "2026-09-16",
         "subtasks": []
     },
     {
@@ -26,9 +26,9 @@
         "estimated_minutes": 30,
         "due_date": "2026-10-11",
         "recurring": "None",
-        "completed": false,
+        "completed": true,
         "starred": false,
-        "completed_on": "",
+        "completed_on": "2026-09-16",
         "subtasks": []
     },
     {
@@ -42,24 +42,24 @@
         "estimated_minutes": 30,
         "due_date": "2026-09-12",
         "recurring": "None",
-        "completed": false,
+        "completed": true,
         "starred": false,
-        "completed_on": "",
+        "completed_on": "2026-09-16",
         "subtasks": [
             {
                 "id": "bd5c6160-ea51-4465-acdc-cd6cf21a8f30",
                 "text": "learn BFS",
-                "completed": false
+                "completed": true
             },
             {
                 "id": "10bf626f-ffbe-4960-afcf-3146c7f62808",
                 "text": "DFS",
-                "completed": false
+                "completed": true
             },
             {
                 "id": "461bbd1a-ea33-414c-ba87-ac2211a9cc0a",
                 "text": "A*",
-                "completed": false
+                "completed": true
             }
         ]
     },

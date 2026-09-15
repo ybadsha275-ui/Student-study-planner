@@ -1,11 +1,11 @@
 import customtkinter as ctk
+
 from datetime import date
 
 from core.task_manager import (
     load_tasks,
     load_study_data,
-    save_study_data,
-    record_focus_session
+    record_focus_session,
 )
 
 from core.gamification import (
@@ -13,7 +13,7 @@ from core.gamification import (
     award_session_xp,
     check_achievements,
     get_level,
-    get_achievement_definitions
+    get_achievement_definitions,
 )
 
 
@@ -23,10 +23,31 @@ class FocusView(ctk.CTkFrame):
 
         super().__init__(
             master,
-            fg_color="transparent"
+            fg_color="transparent",
         )
 
         self.app = app
+
+        # =====================================================
+        # GLOBAL COLORS
+        # =====================================================
+
+        self.colors = getattr(
+            app,
+            "colors",
+            {
+                "accent": "#3B82F6",
+                "accent_hover": "#2563EB",
+                "card_dark": "#181F28",
+                "card_light": "#FFFFFF",
+                "border_dark": "#252E39",
+                "border_light": "#E3E7ED",
+                "text_dark": "#F3F4F6",
+                "text_light": "#111827",
+                "muted_dark": "#8B95A5",
+                "muted_light": "#6B7280",
+            },
+        )
 
         # =====================================================
         # TIMER SETTINGS
@@ -50,12 +71,12 @@ class FocusView(ctk.CTkFrame):
 
         self.grid_columnconfigure(
             0,
-            weight=1
+            weight=1,
         )
 
         self.grid_rowconfigure(
             2,
-            weight=1
+            weight=1,
         )
 
         self.create_header()
@@ -74,7 +95,7 @@ class FocusView(ctk.CTkFrame):
 
         header = ctk.CTkFrame(
             self,
-            fg_color="transparent"
+            fg_color="transparent",
         )
 
         header.grid(
@@ -82,25 +103,43 @@ class FocusView(ctk.CTkFrame):
             column=0,
             sticky="ew",
             padx=25,
-            pady=(20, 5)
+            pady=(20, 10),
+        )
+
+        ctk.CTkLabel(
+            header,
+            text="FOCUS WORKSPACE",
+            font=("Segoe UI", 10, "bold"),
+            text_color=(
+                self.colors["accent"],
+                "#60A5FA",
+            ),
+        ).pack(
+            anchor="w",
         )
 
         ctk.CTkLabel(
             header,
             text="Focus Mode",
-            font=("Segoe UI", 30, "bold")
-        ).pack()
+            font=("Segoe UI", 30, "bold"),
+        ).pack(
+            anchor="w",
+            pady=(2, 2),
+        )
 
         ctk.CTkLabel(
             header,
             text=(
-                "Focus on one task, complete sessions, "
-                "and earn XP for consistent study."
+                "Work deeply, take intentional breaks, "
+                "and build consistent study momentum."
             ),
-            font=("Segoe UI", 13),
-            text_color=("gray40", "gray65")
+            font=("Segoe UI", 12),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
         ).pack(
-            pady=(3, 0)
+            anchor="w",
         )
 
     # =========================================================
@@ -111,7 +150,16 @@ class FocusView(ctk.CTkFrame):
 
         settings = ctk.CTkFrame(
             self,
-            corner_radius=15
+            corner_radius=17,
+            fg_color=(
+                self.colors["card_light"],
+                self.colors["card_dark"],
+            ),
+            border_width=1,
+            border_color=(
+                self.colors["border_light"],
+                self.colors["border_dark"],
+            ),
         )
 
         settings.grid(
@@ -119,138 +167,188 @@ class FocusView(ctk.CTkFrame):
             column=0,
             sticky="ew",
             padx=25,
-            pady=15
+            pady=(0, 14),
         )
 
         settings.grid_columnconfigure(
             8,
-            weight=1
+            weight=1,
         )
 
         # -----------------------------------------------------
-        # Focus duration
+        # FOCUS
         # -----------------------------------------------------
 
         ctk.CTkLabel(
             settings,
-            text="Focus",
-            font=("Segoe UI", 12, "bold")
+            text="FOCUS",
+            font=("Segoe UI", 9, "bold"),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
         ).grid(
             row=0,
             column=0,
-            padx=(15, 5),
-            pady=14
+            padx=(17, 5),
+            pady=(12, 0),
         )
 
         self.work_var = ctk.StringVar(
-            value="25"
+            value="25",
         )
 
         ctk.CTkEntry(
             settings,
             textvariable=self.work_var,
-            width=70
+            width=68,
+            height=34,
+            corner_radius=9,
+            justify="center",
         ).grid(
-            row=0,
-            column=1,
-            padx=5
+            row=1,
+            column=0,
+            padx=(15, 4),
+            pady=(2, 12),
         )
 
         ctk.CTkLabel(
             settings,
-            text="min"
+            text="min",
+            font=("Segoe UI", 10),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
+        ).grid(
+            row=1,
+            column=1,
+            padx=(0, 10),
+            pady=(2, 12),
+        )
+
+        # -----------------------------------------------------
+        # BREAK
+        # -----------------------------------------------------
+
+        ctk.CTkLabel(
+            settings,
+            text="BREAK",
+            font=("Segoe UI", 9, "bold"),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
         ).grid(
             row=0,
             column=2,
-            padx=(0, 15)
-        )
-
-        # -----------------------------------------------------
-        # Break duration
-        # -----------------------------------------------------
-
-        ctk.CTkLabel(
-            settings,
-            text="Break",
-            font=("Segoe UI", 12, "bold")
-        ).grid(
-            row=0,
-            column=3,
-            padx=(10, 5)
+            padx=(8, 5),
+            pady=(12, 0),
         )
 
         self.break_var = ctk.StringVar(
-            value="5"
+            value="5",
         )
 
         ctk.CTkEntry(
             settings,
             textvariable=self.break_var,
-            width=70
+            width=68,
+            height=34,
+            corner_radius=9,
+            justify="center",
         ).grid(
-            row=0,
-            column=4,
-            padx=5
+            row=1,
+            column=2,
+            padx=(8, 4),
+            pady=(2, 12),
         )
 
         ctk.CTkLabel(
             settings,
-            text="min"
+            text="min",
+            font=("Segoe UI", 10),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
         ).grid(
-            row=0,
-            column=5,
-            padx=(0, 15)
+            row=1,
+            column=3,
+            padx=(0, 10),
+            pady=(2, 12),
         )
+
+        # -----------------------------------------------------
+        # APPLY
+        # -----------------------------------------------------
 
         ctk.CTkButton(
             settings,
             text="Apply",
-            width=90,
-            command=self.apply_settings
+            width=82,
+            height=34,
+            corner_radius=9,
+            font=("Segoe UI", 10, "bold"),
+            command=self.apply_settings,
         ).grid(
-            row=0,
-            column=6,
-            padx=10
+            row=1,
+            column=4,
+            padx=6,
+            pady=(2, 12),
         )
 
         # -----------------------------------------------------
-        # Task selection
+        # TASK LABEL
         # -----------------------------------------------------
 
         ctk.CTkLabel(
             settings,
-            text="Study Task",
-            font=("Segoe UI", 12, "bold")
+            text="STUDY TASK",
+            font=("Segoe UI", 9, "bold"),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
         ).grid(
             row=0,
-            column=7,
-            padx=(20, 5)
+            column=6,
+            padx=(25, 6),
+            pady=(12, 0),
         )
 
+        # -----------------------------------------------------
+        # TASK DROPDOWN
+        # -----------------------------------------------------
+
         self.task_var = ctk.StringVar(
-            value="No task selected"
+            value="No task selected",
         )
 
         self.task_dropdown = ctk.CTkComboBox(
             settings,
             variable=self.task_var,
             values=[
-                "No task selected"
+                "No task selected",
             ],
-            width=300
+            width=310,
+            height=34,
+            corner_radius=9,
         )
 
         self.task_dropdown.grid(
-            row=0,
-            column=8,
-            padx=(5, 15),
-            sticky="ew"
+            row=1,
+            column=6,
+            columnspan=3,
+            padx=(20, 15),
+            pady=(2, 12),
+            sticky="ew",
         )
 
         self.task_dropdown.bind(
             "<<ComboboxSelected>>",
             lambda event:
-            self.update_selected_task_label()
+            self.update_selected_task_label(),
         )
 
     # =========================================================
@@ -261,7 +359,16 @@ class FocusView(ctk.CTkFrame):
 
         timer_card = ctk.CTkFrame(
             self,
-            corner_radius=20
+            corner_radius=24,
+            fg_color=(
+                "#F5F8FC",
+                "#121A23",
+            ),
+            border_width=1,
+            border_color=(
+                "#DDE6F2",
+                "#253241",
+            ),
         )
 
         timer_card.grid(
@@ -269,102 +376,203 @@ class FocusView(ctk.CTkFrame):
             column=0,
             sticky="nsew",
             padx=25,
-            pady=10
+            pady=(0, 14),
         )
 
         timer_card.grid_columnconfigure(
             0,
-            weight=1
+            weight=1,
         )
 
         timer_card.grid_rowconfigure(
             0,
-            weight=1
+            weight=1,
         )
 
         inner = ctk.CTkFrame(
             timer_card,
-            fg_color="transparent"
+            fg_color="transparent",
         )
 
         inner.grid(
             row=0,
             column=0,
-            sticky="nsew"
+            sticky="nsew",
+            padx=30,
+            pady=25,
         )
+
+        inner.grid_columnconfigure(
+            0,
+            weight=1,
+        )
+
+        # -----------------------------------------------------
+        # SESSION LABEL
+        # -----------------------------------------------------
 
         ctk.CTkLabel(
             inner,
             text="CURRENT SESSION",
-            font=("Segoe UI", 12, "bold"),
-            text_color=("gray45", "gray65")
+            font=("Segoe UI", 10, "bold"),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
         ).pack(
-            pady=(40, 5)
+            pady=(18, 7),
         )
+
+        # -----------------------------------------------------
+        # MODE BADGE
+        # -----------------------------------------------------
+
+        self.mode_badge = ctk.CTkFrame(
+            inner,
+            width=128,
+            height=34,
+            corner_radius=17,
+            fg_color=(
+                "#DBEAFE",
+                "#173252",
+            ),
+        )
+
+        self.mode_badge.pack()
+
+        self.mode_badge.pack_propagate(False)
 
         self.mode_label = ctk.CTkLabel(
-            inner,
-            text="FOCUS",
-            font=("Segoe UI", 17, "bold")
+            self.mode_badge,
+            text="●  FOCUS",
+            font=("Segoe UI", 11, "bold"),
+            text_color=(
+                "#2563EB",
+                "#60A5FA",
+            ),
         )
 
-        self.mode_label.pack()
+        self.mode_label.pack(
+            expand=True,
+        )
+
+        # -----------------------------------------------------
+        # TIMER
+        # -----------------------------------------------------
 
         self.timer_label = ctk.CTkLabel(
             inner,
             text="25:00",
-            font=("Segoe UI", 72, "bold")
+            font=("Segoe UI", 82, "bold"),
+            text_color=(
+                "#111827",
+                "#F8FAFC",
+            ),
         )
 
         self.timer_label.pack(
-            pady=15
+            pady=(12, 2),
         )
+
+        # -----------------------------------------------------
+        # SELECTED TASK
+        # -----------------------------------------------------
 
         self.selected_task_label = ctk.CTkLabel(
             inner,
             text="No task selected",
-            font=("Segoe UI", 13),
-            text_color=("gray40", "gray65")
+            font=("Segoe UI", 13, "bold"),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
         )
 
         self.selected_task_label.pack(
-            pady=(0, 15)
+            pady=(0, 16),
         )
+
+        # -----------------------------------------------------
+        # TIMER PROGRESS
+        # -----------------------------------------------------
+
+        self.timer_progress = ctk.CTkProgressBar(
+            inner,
+            height=6,
+            corner_radius=3,
+            progress_color=(
+                "#3B82F6",
+                "#3B82F6",
+            ),
+            fg_color=(
+                "#DCE4EE",
+                "#273241",
+            ),
+        )
+
+        self.timer_progress.pack(
+            fill="x",
+            padx=110,
+            pady=(0, 20),
+        )
+
+        self.timer_progress.set(0)
+
+        # -----------------------------------------------------
+        # BUTTONS
+        # -----------------------------------------------------
 
         buttons = ctk.CTkFrame(
             inner,
-            fg_color="transparent"
+            fg_color="transparent",
         )
 
         buttons.pack(
-            pady=(0, 30)
+            pady=(0, 10),
         )
 
         self.start_button = ctk.CTkButton(
             buttons,
-            text="Start",
-            width=130,
-            height=42,
-            font=("Segoe UI", 13, "bold"),
-            command=self.start_pause
+            text="▶  Start Focus",
+            width=150,
+            height=45,
+            corner_radius=12,
+            font=("Segoe UI", 12, "bold"),
+            fg_color=self.colors["accent"],
+            hover_color=self.colors["accent_hover"],
+            command=self.start_pause,
         )
 
         self.start_button.pack(
             side="left",
-            padx=5
+            padx=5,
         )
 
         self.reset_button = ctk.CTkButton(
             buttons,
-            text="Reset",
-            width=130,
-            height=42,
-            command=self.reset_timer
+            text="↻  Reset",
+            width=120,
+            height=45,
+            corner_radius=12,
+            font=("Segoe UI", 12, "bold"),
+            fg_color=(
+                "#E6EBF2",
+                "#293542",
+            ),
+            hover_color=(
+                "#D9E1EA",
+                "#344353",
+            ),
+            text_color=(
+                "#334155",
+                "#E2E8F0",
+            ),
+            command=self.reset_timer,
         )
 
         self.reset_button.pack(
             side="left",
-            padx=5
+            padx=5,
         )
 
     # =========================================================
@@ -375,7 +583,16 @@ class FocusView(ctk.CTkFrame):
 
         self.info_card = ctk.CTkFrame(
             self,
-            corner_radius=15
+            corner_radius=17,
+            fg_color=(
+                self.colors["card_light"],
+                self.colors["card_dark"],
+            ),
+            border_width=1,
+            border_color=(
+                self.colors["border_light"],
+                self.colors["border_dark"],
+            ),
         )
 
         self.info_card.grid(
@@ -383,18 +600,43 @@ class FocusView(ctk.CTkFrame):
             column=0,
             sticky="ew",
             padx=25,
-            pady=(0, 20)
+            pady=(0, 20),
+        )
+
+        info_inner = ctk.CTkFrame(
+            self.info_card,
+            fg_color="transparent",
+        )
+
+        info_inner.pack(
+            pady=14,
+        )
+
+        ctk.CTkLabel(
+            info_inner,
+            text="TODAY",
+            font=("Segoe UI", 9, "bold"),
+            text_color=(
+                self.colors["muted_light"],
+                self.colors["muted_dark"],
+            ),
+        ).pack(
+            side="left",
+            padx=(0, 8),
         )
 
         self.info_label = ctk.CTkLabel(
-            self.info_card,
-            text="Today's sessions: 0",
-            font=("Segoe UI", 14),
-            text_color=("gray40", "gray65")
+            info_inner,
+            text="0 sessions   •   0 min focus time",
+            font=("Segoe UI", 11, "bold"),
+            text_color=(
+                self.colors["text_light"],
+                self.colors["text_dark"],
+            ),
         )
 
         self.info_label.pack(
-            pady=15
+            side="left",
         )
 
     # =========================================================
@@ -421,12 +663,13 @@ class FocusView(ctk.CTkFrame):
             )
 
         self.task_dropdown.configure(
-            values=values
+            values=values,
         )
 
         current = self.task_var.get()
 
         if current not in values:
+
             self.task_var.set(
                 values[0]
             )
@@ -441,17 +684,17 @@ class FocusView(ctk.CTkFrame):
 
             task_name = selected.split(
                 "|",
-                1
+                1,
             )[1]
 
             self.selected_task_label.configure(
-                text=f"Selected: {task_name}"
+                text=f"Studying: {task_name}",
             )
 
         else:
 
             self.selected_task_label.configure(
-                text="No task selected"
+                text="No task selected",
             )
 
     # =========================================================
@@ -471,6 +714,7 @@ class FocusView(ctk.CTkFrame):
             )
 
             if work <= 0 or break_time <= 0:
+
                 raise ValueError
 
         except ValueError:
@@ -481,8 +725,10 @@ class FocusView(ctk.CTkFrame):
             work = 25
             break_time = 5
 
-        # Don't reset a session currently running.
+        # Do not reset a running session.
+
         if self.timer_running:
+
             return
 
         self.work_minutes = work
@@ -494,12 +740,10 @@ class FocusView(ctk.CTkFrame):
             self.work_minutes * 60
         )
 
-        self.mode_label.configure(
-            text="FOCUS"
-        )
+        self.update_mode_visuals()
 
         self.start_button.configure(
-            text="Start"
+            text="▶  Start Focus"
         )
 
         self.update_timer_label()
@@ -514,8 +758,25 @@ class FocusView(ctk.CTkFrame):
 
             self.timer_running = False
 
+            if self.after_id is not None:
+
+                try:
+
+                    self.after_cancel(
+                        self.after_id
+                    )
+
+                except Exception:
+                    pass
+
+                self.after_id = None
+
             self.start_button.configure(
-                text="Resume"
+                text=(
+                    "▶  Resume"
+                    if self.mode == "Focus"
+                    else "▶  Resume Break"
+                )
             )
 
             return
@@ -523,7 +784,7 @@ class FocusView(ctk.CTkFrame):
         self.timer_running = True
 
         self.start_button.configure(
-            text="Pause"
+            text="Ⅱ  Pause"
         )
 
         self.run_timer()
@@ -535,9 +796,11 @@ class FocusView(ctk.CTkFrame):
     def run_timer(self):
 
         if not self.timer_running:
+
             return
 
         self.update_timer_label()
+        self.update_timer_progress()
 
         if self.remaining_seconds <= 0:
 
@@ -549,7 +812,7 @@ class FocusView(ctk.CTkFrame):
 
         self.after_id = self.after(
             1000,
-            self.run_timer
+            self.run_timer,
         )
 
     # =========================================================
@@ -563,9 +826,11 @@ class FocusView(ctk.CTkFrame):
         if self.after_id is not None:
 
             try:
+
                 self.after_cancel(
                     self.after_id
                 )
+
             except Exception:
                 pass
 
@@ -585,12 +850,10 @@ class FocusView(ctk.CTkFrame):
                 self.break_minutes * 60
             )
 
-            self.mode_label.configure(
-                text="BREAK"
-            )
+            self.update_mode_visuals()
 
             self.start_button.configure(
-                text="Start Break"
+                text="▶  Start Break"
             )
 
         # -----------------------------------------------------
@@ -605,15 +868,14 @@ class FocusView(ctk.CTkFrame):
                 self.work_minutes * 60
             )
 
-            self.mode_label.configure(
-                text="FOCUS"
-            )
+            self.update_mode_visuals()
 
             self.start_button.configure(
-                text="Start Focus"
+                text="▶  Start Focus"
             )
 
         self.update_timer_label()
+        self.update_timer_progress()
 
     # =========================================================
     # RESET
@@ -626,9 +888,11 @@ class FocusView(ctk.CTkFrame):
         if self.after_id is not None:
 
             try:
+
                 self.after_cancel(
                     self.after_id
                 )
+
             except Exception:
                 pass
 
@@ -640,15 +904,14 @@ class FocusView(ctk.CTkFrame):
             self.work_minutes * 60
         )
 
-        self.mode_label.configure(
-            text="FOCUS"
-        )
+        self.update_mode_visuals()
 
         self.start_button.configure(
-            text="Start"
+            text="▶  Start Focus"
         )
 
         self.update_timer_label()
+        self.update_timer_progress()
 
     # =========================================================
     # TIMER DISPLAY
@@ -657,18 +920,108 @@ class FocusView(ctk.CTkFrame):
     def update_timer_label(self):
 
         minutes = (
-            self.remaining_seconds
-            // 60
+            self.remaining_seconds // 60
         )
 
         seconds = (
-            self.remaining_seconds
-            % 60
+            self.remaining_seconds % 60
         )
 
         self.timer_label.configure(
             text=f"{minutes:02d}:{seconds:02d}"
         )
+
+    # =========================================================
+    # TIMER PROGRESS
+    # =========================================================
+
+    def update_timer_progress(self):
+
+        if self.mode == "Focus":
+
+            total = (
+                self.work_minutes * 60
+            )
+
+        else:
+
+            total = (
+                self.break_minutes * 60
+            )
+
+        if total <= 0:
+
+            self.timer_progress.set(0)
+
+            return
+
+        elapsed = total - self.remaining_seconds
+
+        progress = elapsed / total
+
+        self.timer_progress.set(
+            max(
+                0,
+                min(
+                    1,
+                    progress,
+                ),
+            )
+        )
+
+    # =========================================================
+    # MODE VISUALS
+    # =========================================================
+
+    def update_mode_visuals(self):
+
+        if self.mode == "Focus":
+
+            self.mode_badge.configure(
+                fg_color=(
+                    "#DBEAFE",
+                    "#173252",
+                )
+            )
+
+            self.mode_label.configure(
+                text="●  FOCUS",
+                text_color=(
+                    "#2563EB",
+                    "#60A5FA",
+                ),
+            )
+
+            self.timer_progress.configure(
+                progress_color=(
+                    "#3B82F6",
+                    "#3B82F6",
+                )
+            )
+
+        else:
+
+            self.mode_badge.configure(
+                fg_color=(
+                    "#DCFCE7",
+                    "#16372A",
+                )
+            )
+
+            self.mode_label.configure(
+                text="●  BREAK",
+                text_color=(
+                    "#15803D",
+                    "#4ADE80",
+                ),
+            )
+
+            self.timer_progress.configure(
+                progress_color=(
+                    "#22C55E",
+                    "#22C55E",
+                )
+            )
 
     # =========================================================
     # COMPLETE FOCUS SESSION
@@ -693,7 +1046,7 @@ class FocusView(ctk.CTkFrame):
         old_xp = int(
             before.get(
                 "xp",
-                0
+                0,
             )
         )
 
@@ -716,7 +1069,7 @@ class FocusView(ctk.CTkFrame):
         new_xp = int(
             after.get(
                 "xp",
-                0
+                0,
             )
         )
 
@@ -737,7 +1090,7 @@ class FocusView(ctk.CTkFrame):
         self.refresh_session_info()
 
         # -----------------------------------------------------
-        # 7. Notify user
+        # 7. Notify
         # -----------------------------------------------------
 
         if new_level > old_level:
@@ -775,12 +1128,12 @@ class FocusView(ctk.CTkFrame):
             )
 
         # -----------------------------------------------------
-        # 8. Refresh dashboard if it is open
+        # 8. Refresh dashboard
         # -----------------------------------------------------
 
         if hasattr(
             self.app,
-            "refresh_dashboard"
+            "refresh_dashboard",
         ):
 
             self.app.refresh_dashboard()
@@ -791,7 +1144,7 @@ class FocusView(ctk.CTkFrame):
 
     def get_achievement_names(
         self,
-        achievement_ids
+        achievement_ids,
     ):
 
         definitions = {
@@ -823,7 +1176,7 @@ class FocusView(ctk.CTkFrame):
     def show_game_notification(
         self,
         title,
-        message
+        message,
     ):
 
         notification = ctk.CTkToplevel(
@@ -835,7 +1188,7 @@ class FocusView(ctk.CTkFrame):
         )
 
         notification.geometry(
-            "380x210"
+            "395x225"
         )
 
         notification.resizable(
@@ -847,24 +1200,30 @@ class FocusView(ctk.CTkFrame):
             self
         )
 
+        notification.grab_set()
+
         card = ctk.CTkFrame(
             notification,
-            corner_radius=15
+            corner_radius=18,
+            fg_color=(
+                self.colors["card_light"],
+                self.colors["card_dark"],
+            ),
         )
 
         card.pack(
             fill="both",
             expand=True,
             padx=10,
-            pady=10
+            pady=10,
         )
 
         ctk.CTkLabel(
             card,
             text=title,
-            font=("Segoe UI", 19, "bold")
+            font=("Segoe UI", 19, "bold"),
         ).pack(
-            pady=(20, 8)
+            pady=(22, 8)
         )
 
         ctk.CTkLabel(
@@ -872,7 +1231,7 @@ class FocusView(ctk.CTkFrame):
             text=message,
             font=("Segoe UI", 12),
             justify="center",
-            wraplength=320
+            wraplength=330,
         ).pack(
             padx=15
         )
@@ -880,8 +1239,10 @@ class FocusView(ctk.CTkFrame):
         ctk.CTkButton(
             card,
             text="Nice!",
-            width=100,
-            command=notification.destroy
+            width=110,
+            height=36,
+            corner_radius=10,
+            command=notification.destroy,
         ).pack(
             pady=15
         )
@@ -892,7 +1253,7 @@ class FocusView(ctk.CTkFrame):
                 notification.destroy()
                 if notification.winfo_exists()
                 else None
-            )
+            ),
         )
 
     # =========================================================
@@ -907,24 +1268,24 @@ class FocusView(ctk.CTkFrame):
 
         sessions = data.get(
             "pomodoro_sessions",
-            {}
+            {},
         )
 
         count = sessions.get(
             today,
-            0
+            0,
         )
 
         total_minutes = data.get(
             "total_focus_minutes",
-            0
+            0,
         )
 
         self.info_label.configure(
             text=(
-                f"Today's sessions: {count}"
-                f"     •     "
-                f"Total focus time: {total_minutes} min"
+                f"{count} sessions"
+                f"   •   "
+                f"{total_minutes} min focus time"
             )
         )
 
@@ -937,9 +1298,11 @@ class FocusView(ctk.CTkFrame):
         if self.after_id is not None:
 
             try:
+
                 self.after_cancel(
                     self.after_id
                 )
+
             except Exception:
                 pass
 
