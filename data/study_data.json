@@ -1,0 +1,12 @@
+{
+    "study_dates": [
+        "2026-09-15",
+        "2026-09-16"
+    ],
+    "daily_goal": 5,
+    "pomodoro_sessions": {
+        "2026-09-15": 3,
+        "2026-09-16": 1
+    },
+    "total_focus_minutes": 4
+}

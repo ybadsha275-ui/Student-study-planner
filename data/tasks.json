@@ -1,0 +1,188 @@
+[
+    {
+        "id": "970587d4-ad06-4c2b-b531-237c3fbd17b0",
+        "task": "practice java",
+        "subject": "General",
+        "description": "",
+        "priority": "MEDIUM",
+        "category": "Study",
+        "difficulty": "Medium",
+        "estimated_minutes": 30,
+        "due_date": "2026-09-10",
+        "recurring": "None",
+        "completed": false,
+        "starred": false,
+        "completed_on": "",
+        "subtasks": []
+    },
+    {
+        "id": "74f7bd42-3a82-4ffa-b013-10113169f327",
+        "task": "study SM",
+        "subject": "mathematics",
+        "description": "",
+        "priority": "HIGH",
+        "category": "Study",
+        "difficulty": "Medium",
+        "estimated_minutes": 30,
+        "due_date": "2026-10-11",
+        "recurring": "None",
+        "completed": false,
+        "starred": false,
+        "completed_on": "",
+        "subtasks": []
+    },
+    {
+        "id": "f541b855-4028-4796-b4d1-ebe6fea2f25e",
+        "task": "do assignments of AI",
+        "subject": "Artificial Intelligence (AI)",
+        "description": "u have to do it",
+        "priority": "MEDIUM",
+        "category": "Study",
+        "difficulty": "Medium",
+        "estimated_minutes": 30,
+        "due_date": "2026-09-12",
+        "recurring": "None",
+        "completed": false,
+        "starred": false,
+        "completed_on": "",
+        "subtasks": [
+            {
+                "id": "bd5c6160-ea51-4465-acdc-cd6cf21a8f30",
+                "text": "learn BFS",
+                "completed": false
+            },
+            {
+                "id": "10bf626f-ffbe-4960-afcf-3146c7f62808",
+                "text": "DFS",
+                "completed": false
+            },
+            {
+                "id": "461bbd1a-ea33-414c-ba87-ac2211a9cc0a",
+                "text": "A*",
+                "completed": false
+            }
+        ]
+    },
+    {
+        "id": "128f6010-9b6c-489d-a24f-e50d9d2e749a",
+        "task": "learn python",
+        "subject": "programming",
+        "description": "complete python basics",
+        "priority": "MEDIUM",
+        "category": "Study",
+        "difficulty": "Medium",
+        "estimated_minutes": 30,
+        "due_date": "2026-09-10",
+        "recurring": "None",
+        "completed": true,
+        "starred": false,
+        "completed_on": "2026-09-15",
+        "subtasks": []
+    },
+    {
+        "id": "283705b3-6b29-4739-a995-3f8a7d8648d4",
+        "task": "do assignments of PSAB",
+        "subject": "PSAB",
+        "description": "",
+        "priority": "HIGH",
+        "category": "Study",
+        "difficulty": "Medium",
+        "estimated_minutes": 30,
+        "due_date": "2026-09-13",
+        "recurring": "None",
+        "completed": true,
+        "starred": false,
+        "completed_on": "2026-09-15",
+        "subtasks": []
+    },
+    {
+        "id": "02e3834e-8839-4b2b-82b2-36d6cf730bf6",
+        "task": "build study planner",
+        "subject": "python AIML",
+        "description": "yay",
+        "priority": "HIGH",
+        "category": "Assignment",
+        "difficulty": "Easy",
+        "estimated_minutes": 30,
+        "due_date": "2026-09-20",
+        "recurring": "None",
+        "completed": true,
+        "starred": false,
+        "completed_on": "2026-09-15",
+        "subtasks": []
+    },
+    {
+        "id": "bb35c5f1-29a4-4890-8061-45fce3513ff8",
+        "task": "study AIML",
+        "subject": "AIML",
+        "description": "",
+        "priority": "High",
+        "category": "assignment",
+        "difficulty": "Hard",
+        "estimated_minutes": 60,
+        "due_date": "2026-09-16",
+        "recurring": "None",
+        "completed": true,
+        "starred": false,
+        "completed_on": "2026-09-15",
+        "subtasks": []
+    },
+    {
+        "id": "ca7081e1-47e8-4101-8c99-a5d28268795c",
+        "task": "exam of SE",
+        "subject": "SE",
+        "description": "",
+        "priority": "High",
+        "category": "Exam",
+        "difficulty": "Hard",
+        "estimated_minutes": 30,
+        "due_date": "2026-09-15",
+        "recurring": "None",
+        "completed": true,
+        "starred": false,
+        "completed_on": "2026-09-15",
+        "subtasks": []
+    },
+    {
+        "id": "3a716cf4-5c34-4ee3-a21b-1cb4e89a52c0",
+        "task": "final project testing",
+        "subject": "pythin",
+        "description": "",
+        "priority": "High",
+        "category": "Project",
+        "difficulty": "Hard",
+        "estimated_minutes": 60,
+        "due_date": "2026-09-16",
+        "recurring": "None",
+        "completed": true,
+        "starred": false,
+        "completed_on": "2026-09-16",
+        "subtasks": [
+            {
+                "id": "c04b841e-9590-42c4-8610-17430d1f3a0c",
+                "text": "test task creation",
+                "completed": true
+            },
+            {
+                "id": "6b3c86f6-38d5-4619-acaf-44436b8fa39a",
+                "text": "test progress tracking",
+                "completed": true
+            },
+            {
+                "id": "36e81c52-7f14-4624-8f47-1b011f76a04d",
+                "text": "test XP",
+                "completed": true
+            },
+            {
+                "id": "651b68a0-e20b-4be6-9497-e7c8c4d088c4",
+                "text": "test analytics",
+                "completed": true
+            },
+            {
+                "id": "46929a40-f956-46e0-a25a-184c0179f69c",
+                "text": "test reports",
+                "completed": true
+            }
+        ]
+    }
+]

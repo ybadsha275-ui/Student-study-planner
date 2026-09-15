@@ -1,0 +1,13 @@
+{
+    "xp": 320,
+    "completed_task_ids": [
+        "bb35c5f1-29a4-4890-8061-45fce3513ff8",
+        "ca7081e1-47e8-4101-8c99-a5d28268795c",
+        "3a716cf4-5c34-4ee3-a21b-1cb4e89a52c0"
+    ],
+    "completed_sessions": 3,
+    "unlocked_achievements": [
+        "first_task",
+        "five_tasks"
+    ]
+}
